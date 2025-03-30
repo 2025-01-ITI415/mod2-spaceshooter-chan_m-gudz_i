@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundsType: 2
-  radius: 1.5
+  radius: 2
   keepOnScreen: 0
   screenLocs: 0
   camWidth: 0
@@ -121,6 +121,7 @@ MonoBehaviour:
   fireRate: 0.3
   health: 10
   score: 100
+  powerUpDropChance: 0.25
 --- !u!114 &4413574950116602420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showingColor: 0
   blinkCompleteTime: 0
+  ignoreOnCollisionEnter: 0
 --- !u!1001 &2771718673915856375
 PrefabInstance:
   m_ObjectHideFlags: 0
