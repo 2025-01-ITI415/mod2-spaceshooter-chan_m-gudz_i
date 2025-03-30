@@ -1230,7 +1230,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 124
   m_CollisionDetection: 0
 --- !u!114 &3924220563937104232
 MonoBehaviour:
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c2c87ff8edf749f78faf2b61435d6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 0.5
   fireRate: 0.3
   health: 0
   score: 100
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   duration: 4
   enemyFireRate: 1
   laserPrefab: {fileID: 1748481653128472527, guid: 5c536e161f3a99d4e93b53a049a21ee7, type: 3}
-  laserSpawn: {fileID: 5679184283734995648, guid: c30eb7350e68c86439519836979481d1, type: 3}
+  laserSpawn: {fileID: 851351530546099152}
 --- !u!114 &-5834237933516866095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1298,4 +1298,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2466ebe7697bbb041a3b4d6a8c94a6ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 14
+  health: 10

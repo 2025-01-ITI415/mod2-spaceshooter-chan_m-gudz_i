@@ -44,12 +44,12 @@ public class Enemy_4 : Enemy
     }
 
     public override void Move() {
-        float u = (Time.time -timeStart);
+        float u = (Time.time -timeStart) * 0.5f;
         if(u>=1){
             InitMovement();
             u = 0;
         }
-        u = u - 0.15f * Mathf.Sin( u * 2 * Mathf.PI);
+        u = u - .05f * Mathf.Sin( u * 2 * Mathf.PI);
         pos = (1-u)*p0 + u*p1;
     }
 
@@ -99,12 +99,33 @@ public class Enemy_4 : Enemy
     {
         if (laserPrefab != null && laserSpawn != null)
         {
-            GameObject laser = Instantiate(laserPrefab, laserSpawn.position, Quaternion.identity);
-            Rigidbody rb = laser.GetComponent<Rigidbody>();
-            if (rb != null)
+            GameObject laserLeft = Instantiate(laserPrefab, laserSpawn.position, Quaternion.identity);
+            ProjectileEnemy peLeft = laserLeft.GetComponent<ProjectileEnemy>();
+            if (peLeft != null)
             {
-                rb.velocity = Vector3.down * 10f;  // Move the laser downwards
+                peLeft.velocity = Vector3.left;
+                Rigidbody rbLeft = laserLeft.GetComponent<Rigidbody>();
+                if (rbLeft != null)
+            {
+                rbLeft.velocity = peLeft.velocity * 5f;  // Apply velocity with speed
+                Debug.Log("Left laser velocity: " + peLeft.velocity);
+            }  // Move the laser to the left
             }
-        }
+
+            // Instantiate the laser for the right direction
+            GameObject laserRight = Instantiate(laserPrefab, laserSpawn.position, Quaternion.identity);
+            ProjectileEnemy peRight = laserRight.GetComponent<ProjectileEnemy>();  // Get the ProjectileEnemy component
+            if (peRight != null)
+            {
+                peRight.velocity = Vector3.right;  // Set velocity to move right
+                Rigidbody rbRight = laserRight.GetComponent<Rigidbody>();
+                if (rbRight != null)
+            {
+                    rbRight.velocity = peRight.velocity * 10f;  // Apply velocity with speed
+                    Debug.Log("Right laser velocity: " + peRight.velocity);
+            }
+            }
     }
+    
+    }   
 }

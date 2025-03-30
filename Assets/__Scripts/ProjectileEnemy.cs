@@ -19,7 +19,9 @@ public class ProjectileEnemy : MonoBehaviour
     {
         if (rigid != null)
         {
-            rigid.velocity = Vector3.down * speed; 
+            rigid.velocity = Vector3.zero; 
+            rigid.velocity = velocity * speed; 
+            Debug.Log("Projectile velocity: " + velocity + ", Speed: " + speed);
         }
     }
 
