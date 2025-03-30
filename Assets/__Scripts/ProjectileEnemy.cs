@@ -7,6 +7,7 @@ public class ProjectileEnemy : MonoBehaviour
     private BoundsCheck bndCheck;
     public Rigidbody rigid;
     public Vector3 velocity; 
+    public float speed = 10f;
 
     void Awake()
     {
@@ -16,9 +17,9 @@ public class ProjectileEnemy : MonoBehaviour
 
      void Start()
     {
-         if (rigid != null && velocity != Vector3.zero)
+        if (rigid != null)
         {
-            rigid.velocity = velocity; 
+            rigid.velocity = Vector3.down * speed; 
         }
     }
 

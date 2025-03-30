@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Inscribed")]
     public float speed = 10f;   // The movement speed is 10m/s
-    public float fireRate = 0.3f;  // Seconds/shot (Unused)
+    public float fireRate = 0.5f;  // Seconds/shot (Unused)
     public float health = 10;    // Damage needed to destroy this enemy
     public int score = 100;   // Points earned for destroying this
     public float powerUpDropChance = 1f;
