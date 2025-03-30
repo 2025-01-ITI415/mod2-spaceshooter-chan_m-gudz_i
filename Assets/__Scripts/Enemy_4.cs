@@ -8,16 +8,19 @@ public class Enemy_4 : Enemy
 {
     [Header("Enemy_4 Inscribed Fields")]
     public float duration = 4;
-    
+    public GameObject laserPrefab;
+    public Transform laserSpawn;
     private EnemyShield[] allShields;
     private EnemyShield thisShield;
     private Vector3 p0,p1;
     private float timeStart;
+    private float laserTimer;
 
     void Start(){
         allShields = GetComponentsInChildren<EnemyShield>();
         thisShield = GetComponent<EnemyShield>();
         p0 = p1 = pos;
+        laserTimer = 0f;
         InitMovement();
     }
 
@@ -45,6 +48,19 @@ public class Enemy_4 : Enemy
         }
         u = u - 0.15f * Mathf.Sin( u * 2 * Mathf.PI);
         pos = (1-u)*p0 + u*p1;
+
+        laserTimer += Time.deltaTime;
+        if(laserTimer >= duration){
+            FireLaser();
+            laserTimer = 0f;
+        }
+    }
+
+    void FireLaser(){
+        if (laserPrefab != null && laserSpawn != null) {
+            GameObject laser = Instantiate(laserPrefab, laserSpawn.position, Quaternion.identity);
+            ProjectileEnemy laserProjectile = laser.GetComponent<ProjectileEnemy>();
+        }
     }
 
     void OnCollisionEnter( Collision coll ) {
