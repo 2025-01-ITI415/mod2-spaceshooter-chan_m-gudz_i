@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent( typeof(EnemyShield) )]
-
 public class Enemy_4 : Enemy
 {
     [Header("Enemy_4 Inscribed Fields")]
@@ -14,14 +13,14 @@ public class Enemy_4 : Enemy
     private EnemyShield thisShield;
     private Vector3 p0,p1;
     private float timeStart;
-    private float laserTimer;
+    private float nextFireTime;
 
     void Start(){
         allShields = GetComponentsInChildren<EnemyShield>();
         thisShield = GetComponent<EnemyShield>();
         p0 = p1 = pos;
-        laserTimer = 0f;
         InitMovement();
+        nextFireTime = Time.time;
     }
 
     void InitMovement(){
@@ -42,28 +41,45 @@ public class Enemy_4 : Enemy
 
     public override void Move() {
         float u = (Time.time -timeStart);
-        if(u>=1){
+        if(u >= 1){
             InitMovement();
             u = 0;
         }
-        u = u - 0.15f * Mathf.Sin( u * 2 * Mathf.PI);
-        pos = (1-u)*p0 + u*p1;
-
-        laserTimer += Time.deltaTime;
-        if(laserTimer >= duration){
-            FireLaser();
-            laserTimer = 0f;
-        }
+        u = u - 0.15f * Mathf.Sin(u * 2 * Mathf.PI);
+        pos = (1 - u) * p0 + u * p1;
     }
 
     void FireLaser(){
+        // Fire lasers in a spread pattern
+
         if (laserPrefab != null && laserSpawn != null) {
-            GameObject laser = Instantiate(laserPrefab, laserSpawn.position, Quaternion.identity);
-            ProjectileEnemy laserProjectile = laser.GetComponent<ProjectileEnemy>();
+            // Create a laser shot straight down
+            ProjectileEnemy p = MakeProjectile(laserSpawn.position, Quaternion.identity);
+            p.velocity = Vector3.down * 10;
+
+            // Create spread shots at angles
+            p = MakeProjectile(laserSpawn.position, Quaternion.AngleAxis(10, Vector3.back));
+            p.velocity = p.transform.rotation * Vector3.down * 10;
+
+            p = MakeProjectile(laserSpawn.position, Quaternion.AngleAxis(-10, Vector3.back));
+            p.velocity = p.transform.rotation * Vector3.down * 10;
+
+            // Optional: You can add more angles for a wider spread
+            p = MakeProjectile(laserSpawn.position, Quaternion.AngleAxis(20, Vector3.back));
+            p.velocity = p.transform.rotation * Vector3.down * 10;
+
+            p = MakeProjectile(laserSpawn.position, Quaternion.AngleAxis(-20, Vector3.back));
+            p.velocity = p.transform.rotation * Vector3.down * 10;
         }
     }
 
-    void OnCollisionEnter( Collision coll ) {
+    private ProjectileEnemy MakeProjectile(Vector3 spawnPosition, Quaternion rotation)
+    {
+        GameObject go = Instantiate(laserPrefab, spawnPosition, rotation);
+        return go.GetComponent<ProjectileEnemy>();  // Assuming ProjectileEnemy script is attached to laserPrefab
+    }
+
+    void OnCollisionEnter(Collision coll) {
         GameObject otherGO = coll.gameObject;
         ProjectileHero p = otherGO.GetComponent<ProjectileHero>();
         if (p != null) {
@@ -93,6 +109,15 @@ public class Enemy_4 : Enemy
             }
         } else{
             Debug.Log("Enemy_4 hit by non_ProjectileHero: " + otherGO.name);
+        }
+    }
+
+    void Update()
+    {
+        if(Time.time >= nextFireTime)
+        {
+            FireLaser();
+            nextFireTime = Time.time + fireRate;
         }
     }
 }
