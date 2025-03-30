@@ -103,8 +103,14 @@ public class Hero : MonoBehaviour
 
         Enemy enemy = go.GetComponent<Enemy>();                               // e
         PowerUp pUp = go.GetComponent<PowerUp>();
+        ProjectileEnemy projenemy = go.GetComponent<ProjectileEnemy>();
 
         if (enemy != null)
+        {  // If the shield was triggered by an enemy
+            shieldLevel--;        // Decrease the level of the shield by 1
+            Destroy(go);          // … and Destroy the enemy                  // f
+        }
+        else if (projenemy != null)
         {  // If the shield was triggered by an enemy
             shieldLevel--;        // Decrease the level of the shield by 1
             Destroy(go);          // … and Destroy the enemy                  // f
